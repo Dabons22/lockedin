@@ -1,0 +1,313 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', cursive;
+  background: linear-gradient(to bottom right, #ffd6ec, #ffe6f7);
+  text-align: center;
+  color: #ff4da6;
+
+  /* iPhone safe areas */
+  padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+}
+
+/* ========================= */
+/* GENERAL LAYOUT */
+/* ========================= */
+
+.container {
+  padding: clamp(20px, 6vh, 60px) 16px;
+}
+
+h1 {
+  font-size: clamp(24px, 5vw, 32px);
+  margin-bottom: clamp(20px, 5vh, 40px);
+
+  letter-spacing: 1px;
+  text-shadow: 0 3px 10px rgba(255, 105, 180, 0.3);
+}
+
+/* ========================= */
+/* MAIN MENU CARDS */
+/* ========================= */
+
+.card {
+  background: white;
+  margin: clamp(15px, 3vh, 30px) auto;
+  padding: clamp(20px, 4vh, 30px);
+  width: min(85%, 260px);
+
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.2);
+  transition: 0.25s;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card:active {
+  transform: scale(0.97);
+}
+
+.icon {
+  font-size: clamp(40px, 8vw, 55px);
+}
+
+.card p {
+  margin-top: 10px;
+  font-size: clamp(14px, 3.5vw, 18px);
+}
+
+/* ========================= */
+/* BACK BUTTON */
+/* ========================= */
+
+.back-btn {
+  display: inline-block;
+  margin-top: clamp(20px, 5vh, 40px);
+  text-decoration: none;
+  color: #ff4da6;
+  font-weight: bold;
+  font-size: clamp(14px, 3.5vw, 18px);
+}
+
+/* ========================= */
+/* SPOTIFY CARD */
+/* ========================= */
+
+.spotify-card {
+  background: white;
+  border-radius: 25px;
+  padding: clamp(15px, 3vh, 25px);
+  margin: clamp(20px, 4vh, 40px) auto;
+  max-width: 350px;
+  box-shadow: 0 10px 25px rgba(255, 105, 180, 0.25);
+}
+
+.spotify-card iframe {
+  border-radius: 15px;
+  width: 100%;
+  height: clamp(300px, 50vh, 420px);
+  border: none;
+}
+
+/* ========================= */
+/* SIMPLE PHOTO STYLE */
+/* ========================= */
+
+.photo {
+  width: 90%;
+  max-width: 300px;
+  border-radius: 20px;
+  margin: clamp(10px, 2vh, 20px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* ========================= */
+/* PLACE / MEMORY CARDS */
+/* ========================= */
+
+.place-card {
+  background: white;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: clamp(15px, 4vh, 25px);
+
+  border-radius: 25px;
+  box-shadow: 0 10px 25px rgba(255, 105, 180, 0.25);
+}
+
+.place-caption {
+  margin-top: 15px;
+  font-size: clamp(13px, 3.2vw, 16px);
+  opacity: 0.8;
+}
+
+/* Locked places */
+.locked {
+  border: 2px dashed #ffb6d9;
+  background: #fff7fc;
+}
+
+/* ========================= */
+/* PHOTO GROUP GRID */
+/* ========================= */
+
+.photo-group {
+  background: white;
+  padding: 15px;
+  border-radius: 20px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+
+  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+}
+
+.gallery-img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.gallery-img:hover {
+  transform: scale(1.05);
+}
+
+.gallery-img:active {
+  transform: scale(0.97);
+}
+
+/* ========================= */
+/* LIGHTBOX POPUP */
+/* ========================= */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 80%;
+
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* ========================= */
+/* FLIP CARD SYSTEM (MESSAGE) */
+/* ========================= */
+
+.flip-container {
+  perspective: 1000px;
+  margin: 40px auto;
+  width: min(85%, 320px);
+
+  animation: fadeInUp 0.9s ease;
+}
+
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 340px;
+
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.flip-container.flipped .flip-card {
+  transform: rotateY(180deg);
+}
+
+.front, .back {
+  position: absolute;
+  inset: 0;
+
+  backface-visibility: hidden;
+  border-radius: 25px;
+
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 12px 30px rgba(255, 105, 180, 0.25);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+/* IMPORTANT FIX */
+.front {
+  flex-direction: column;
+  text-align: center;
+}
+
+.front p {
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.image-back {
+  padding: 0;
+}
+
+.image-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 25px;
+}
+
+/* Tap button style */
+.tap-text {
+  margin-top: auto;
+
+  font-size: 14px;
+  opacity: 0.9;
+
+  background: #ff4da6;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 12px;
+
+  display: inline-block;
+  transition: 0.3s;
+}
+
+.tap-text:hover {
+  transform: scale(1.05);
+  background: #ff2f92;
+}
+
+/* ========================= */
+/* ANIMATIONS */
+/* ========================= */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating hearts */
+body::after {
+  content: "💖 💕 💗 💓";
+  position: fixed;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  opacity: 0.2;
+  animation: floatHearts 10s linear infinite;
+}
+
+@keyframes floatHearts {
+  from { transform: translateY(0); }
+  to { transform: translateY(-120vh); }
+}

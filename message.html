@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Message 💌</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>For You Daa 💖</h1>
+
+  <!-- FLIP CARD -->
+  <div class="flip-container" id="flipCard">
+
+    <div class="flip-card" >
+
+      <!-- FRONT -->
+      <div class="front card">
+
+        <p>
+          Hi daa💕<br><br>
+          I created this website again because you deserve it wow hahahah<br><br>
+          But seriously daa, I just want to make you happy every day 💖
+          yung picture na to sobrang special nito for me tinitignan ko lagi to pag namimiss kita 
+        </p>
+
+        <p class="tap-text">📸 Tap to see memory</p>
+
+      </div>
+
+      <!-- BACK -->
+      <div class="back card image-back">
+        <img src="assets/12.jpg" alt="memory">
+      </div>
+
+    </div>
+  </div>
+
+  <a href="index.html" class="back-btn">⬅ Back</a>
+</div>
+
+<!-- TAP HANDLING -->
+<script>
+const card = document.getElementById("flipCard");
+
+card.addEventListener("click", () => {
+  card.classList.toggle("flipped");
+});
+
+card.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  card.classList.toggle("flipped");
+}, { passive: false });
+</script>
+
+</body>
+</html>

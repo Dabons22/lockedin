@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gallery 💕</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+
+<h1>Places We'll Go 🌏💖</h1>
+
+<!-- PHOTO CARD -->
+<div class="place-card">
+
+  <div class="photo-group">
+
+    <img src="assets/1.jpg" class="gallery-img">
+    <img src="assets/2.jpg" class="gallery-img">
+    <img src="assets/3.jpg" class="gallery-img">
+    <img src="assets/4.jpg" class="gallery-img">
+    <img src="assets/5.jpg" class="gallery-img">
+    <img src="assets/6.jpg" class="gallery-img">
+    <img src="assets/7.jpg" class="gallery-img">
+    <img src="assets/8.jpg" class="gallery-img">
+    <img src="assets/9.jpg" class="gallery-img">
+    <img src="assets/10.jpg" class="gallery-img">
+
+  </div>
+
+  <p class="place-caption">
+    One of our pictures together in Caza Peregrine 💕
+  </p>
+
+</div>
+
+<!-- LOCKED PLACES -->
+<div class="card">
+  <div class="icon">🔒</div>
+  <p><strong>Sagada 🌄</strong></p>
+  <p class="locked-text">To be filled with our memories soon 💕</p>
+</div>
+
+<div class="card">
+  <div class="icon">🔒</div>
+  <p><strong>Taiwan 🏯</strong></p>
+  <p class="locked-text">Future adventures waiting for us ✨</p>
+</div>
+
+<a href="index.html" class="back-btn">⬅ Back</a>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox">
+  <img id="lightbox-img">
+</div>
+
+<!-- SCRIPT -->
+<script>
+const images = document.querySelectorAll(".gallery-img");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+
+images.forEach(img => {
+  img.addEventListener("click", () => {
+    lightbox.style.display = "flex";
+    lightboxImg.src = img.src;
+  });
+});
+
+lightbox.addEventListener("click", () => {
+  lightbox.style.display = "none";
+});
+</script>
+
+</body>
+</html>

@@ -78,19 +78,52 @@ h1 {
 /* ========================= */
 
 .spotify-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 25px;
   padding: clamp(15px, 3vh, 25px);
   margin: clamp(20px, 4vh, 40px) auto;
-  max-width: 650px;
-  box-shadow: 0 10px 25px rgba(255, 105, 180, 0.25);
+
+  max-width: 900px; /* wider for better presence */
+  width: 100%;
+
+  box-shadow: 0 12px 30px rgba(255, 105, 180, 0.25);
+  backdrop-filter: blur(6px);
+
+  animation: fadeInUp 0.8s ease;
 }
 
+/* Spotify iframe */
 .spotify-card iframe {
-  border-radius: 15px;
   width: 100%;
-  height: clamp(600px, 50vh, 420px);
+  height: clamp(500px, 75vh, 900px); /* big + responsive */
+  min-height: 600px; /* ensures playlist shows properly */
+
   border: none;
+  border-radius: 15px;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Optional: subtle hover effect */
+.spotify-card:hover {
+  transform: scale(1.01);
+  transition: 0.3s ease;
+}
+
+/* ========================= */
+/* MOBILE OPTIMIZATION */
+/* ========================= */
+
+@media (max-width: 600px) {
+  .spotify-card {
+    padding: 15px;
+    border-radius: 20px;
+  }
+
+  .spotify-card iframe {
+    height: 70vh;
+    min-height: 500px;
+  }
 }
 
 /* ========================= */

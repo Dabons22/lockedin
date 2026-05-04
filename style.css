@@ -89,7 +89,7 @@ h1 {
 .spotify-card iframe {
   border-radius: 15px;
   width: 100%;
-  height: clamp(300px, 50vh, 420px);
+  height: clamp(600px, 50vh, 420px);
   border: none;
 }
 

@@ -13,16 +13,21 @@
   <!-- FLIP CARD -->
   <div class="flip-container" id="flipCard">
 
-    <div class="flip-card" >
+    <div class="flip-card">
 
       <!-- FRONT -->
       <div class="front card">
 
         <p>
-          Hi daa💕<br><br>
-          I created this website again because you deserve it wow hahahah<br><br>
-          But seriously daa, I just want to make you happy every day 💖
-          yung picture na to sobrang special nito for me tinitignan ko lagi to pag namimiss kita 
+          Hi daa 💕<br><br>
+
+          I made this website again… kasi deserve mo naman, wow hahahaha. Pero seryoso, I really just want to make you happy every day 💖<br><br>
+
+          Yung picture na ’to sobrang special sa’kin. Lagi ko siyang tinitignan whenever I miss you. It reminds me of one of the best memories we had together—sobrang saya ko nung araw na ’yon. I really hope we get to have more moments like that in the future.<br><br>
+
+          Thank you for being in my life 💖 Thank you for simply being you, and for making everything feel special kahit sa mga simpleng bagay. Akala mo siguro wala lang yung random banat mo, pero for me, they mean a lot. You make me genuinely happy every time.<br><br>
+
+          Hindi man ako magaling mag-express minsan, pero I hope napaparamdam ko sa’yo kung gaano ako kasaya na nandiyan ka. And I hope napapasaya rin kita kahit papaano 💖
         </p>
 
         <p class="tap-text">📸 Tap to see memory</p>
@@ -37,20 +42,41 @@
     </div>
   </div>
 
+  <!-- MUSIC PLAYER -->
+  <div class="music-player">
+    <p class="song-title">💖 Our song: I’ll Be – Edwin McCain</p>
+
+<iframe 
+  style="border-radius:20px" 
+  src="https://open.spotify.com/embed/track/5K7AMlpc4796JRWXb26nCV"
+  width="100%" 
+  height="152" 
+  frameborder="0" 
+  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+</iframe>
+  </div>
+
   <a href="index.html" class="back-btn">⬅ Back</a>
 </div>
 
-<!-- TAP HANDLING -->
+<!-- SCRIPT -->
 <script>
 const card = document.getElementById("flipCard");
+const player = document.getElementById("ytPlayer");
+
+function playMusic() {
+  player.src = "https://www.youtube-nocookie.com/embed/5qrTmNDZ-nc?autoplay=1";
+}
 
 card.addEventListener("click", () => {
   card.classList.toggle("flipped");
+  playMusic();
 });
 
 card.addEventListener("touchstart", (e) => {
   e.preventDefault();
   card.classList.toggle("flipped");
+  playMusic();
 }, { passive: false });
 </script>
 

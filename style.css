@@ -237,12 +237,11 @@ h1 {
 .flip-card {
   position: relative;
   width: 100%;
-  height: 340px;
+  min-height: 420px; /* increased base height */
 
   transform-style: preserve-3d;
   transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
-
 .flip-container.flipped .flip-card {
   transform: rotateY(180deg);
 }
@@ -259,10 +258,11 @@ h1 {
   box-shadow: 0 12px 30px rgba(255, 105, 180, 0.25);
 
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column; /* important */
+  justify-content: flex-start; /* align text properly */
 
   padding: 20px;
+  overflow-y: auto; 
 }
 
 /* IMPORTANT FIX */
@@ -343,4 +343,37 @@ body::after {
 @keyframes floatHearts {
   from { transform: translateY(0); }
   to { transform: translateY(-120vh); }
+}
+
+.music-player {
+  margin: 60px auto 30px; /* more breathing space from card */
+  max-width: 360px;
+
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 25px;
+
+  box-shadow: 0 10px 25px rgba(255, 105, 180, 0.2);
+  backdrop-filter: blur(6px);
+
+  animation: fadeInUp 1s ease;
+}
+
+.music-player iframe {
+  width: 100%;
+  height: 200px;
+
+  border: none;
+  border-radius: 15px;
+
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.song-title {
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-style: italic;
+  opacity: 0.9;
+
+  color: #ff4da6;
 }

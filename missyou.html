@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
+
+<title>Love Fireworks</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  overflow:hidden;
+  background:#000;
+  height:100vh;
+  font-family:Arial,sans-serif;
+}
+
+/* ========================= */
+/* FULLSCREEN */
+/* ========================= */
+
+canvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+/* ========================= */
+/* SAFE AREA */
+/* ========================= */
+
+.safe-top{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:55px;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.7),
+    transparent
+  );
+  z-index:5;
+  pointer-events:none;
+}
+
+.safe-bottom{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:40px;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,.6),
+    transparent
+  );
+  z-index:5;
+  pointer-events:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="safe-top"></div>
+
+<canvas id="canvas"></canvas>
+
+<div class="safe-bottom"></div>
+
+<!-- ========================= -->
+<!-- BACKGROUND MUSIC -->
+<!-- ========================= -->
+
+<audio id="bgMusic" autoplay loop>
+  <source
+    src="music/kalapastangan.mp3"
+    type="audio/mpeg">
+</audio>
+
+<script>
+
+const music =
+document.getElementById("bgMusic");
+
+music.volume = 0.6;
+
+/* autoplay fix for phones */
+
+document.addEventListener(
+  "click",
+  () => {
+
+    music.play();
+
+  },
+  { once:true }
+);
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas(){
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+}
+
+resizeCanvas();
+
+window.addEventListener("resize",()=>{
+
+  resizeCanvas();
+  createTextParticles();
+
+});
+
+/* ========================= */
+/* MESSAGE */
+/* ========================= */
+
+const TEXT = [
+  "I miss you bebu 💖",
+  "Keep safe <3"
+];
+
+let fireworks = [];
+let particles = [];
+let textParticles = [];
+
+let phase = "explode";
+let timer = 0;
+
+/* ========================= */
+/* TEXT PARTICLES */
+/* ========================= */
+
+function createTextParticles(){
+
+  textParticles = [];
+
+  const tempCanvas =
+  document.createElement("canvas");
+
+  const tempCtx =
+  tempCanvas.getContext("2d");
+
+  tempCanvas.width = canvas.width;
+  tempCanvas.height = canvas.height;
+
+  tempCtx.clearRect(
+    0,
+    0,
+    tempCanvas.width,
+    tempCanvas.height
+  );
+
+  tempCtx.textAlign = "center";
+  tempCtx.textBaseline = "middle";
+
+  /* ========================= */
+  /* RESPONSIVE FONT */
+  /* ========================= */
+
+  const titleSize =
+  Math.min(canvas.width * 0.09, 56);
+
+  const subSize =
+  Math.min(canvas.width * 0.085, 42);
+
+  /* MAIN TEXT */
+
+  tempCtx.font =
+  `900 ${titleSize}px Arial`;
+
+  tempCtx.fillStyle = "#ffffff";
+
+  tempCtx.fillText(
+    TEXT[0],
+    canvas.width / 2,
+    canvas.height / 2 - 35
+  );
+
+  /* SUB TEXT */
+
+  tempCtx.font =
+  `900 ${subSize}px Arial`;
+
+  tempCtx.fillStyle = "#ffd6e0";
+
+  tempCtx.fillText(
+    TEXT[1],
+    canvas.width / 2,
+    canvas.height / 2 + 45
+  );
+
+  const data = tempCtx.getImageData(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  /* ========================= */
+  /* DENSER PARTICLES */
+  /* ========================= */
+
+  for(let y=0;y<canvas.height;y+=4){
+
+    for(let x=0;x<canvas.width;x+=4){
+
+      const index =
+      (y * canvas.width + x) * 4;
+
+      if(data.data[index + 3] > 128){
+
+        const isLowerText =
+        y > canvas.height / 2;
+
+        textParticles.push({
+
+          targetX:x,
+          targetY:y,
+
+          x:
+          canvas.width/2 +
+          (Math.random()-.5)*160,
+
+          y:
+          canvas.height/2 +
+          (Math.random()-.5)*160,
+
+          vx:0,
+          vy:0,
+
+          alpha:0,
+
+          color:isLowerText
+          ? (
+              Math.random() > 0.5
+              ? "#ffffff"
+              : "#ffd6e0"
+            )
+          : (
+              Math.random() > 0.5
+              ? "#ff4d6d"
+              : "#ff85a1"
+            )
+
+        });
+
+      }
+
+    }
+
+  }
+
+}
+
+/* ========================= */
+/* PARTICLES */
+/* ========================= */
+
+class Particle{
+
+  constructor(x,y,color){
+
+    this.x = x;
+    this.y = y;
+
+    this.color = color;
+
+    this.radius =
+    Math.random()*2 + .8;
+
+    this.angle =
+    Math.random()*Math.PI*2;
+
+    this.speed =
+    Math.random()*7 + 2;
+
+    this.vx =
+    Math.cos(this.angle) * this.speed;
+
+    this.vy =
+    Math.sin(this.angle) * this.speed;
+
+    this.alpha = 1;
+
+    this.gravity = .05;
+
+  }
+
+  update(){
+
+    this.x += this.vx;
+    this.y += this.vy;
+
+    this.vy += this.gravity;
+
+    this.alpha -= .014;
+
+  }
+
+  draw(){
+
+    ctx.save();
+
+    ctx.globalAlpha = this.alpha;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      this.x,
+      this.y,
+      this.radius,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle = this.color;
+
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = this.color;
+
+    ctx.fill();
+
+    ctx.restore();
+
+  }
+
+}
+
+/* ========================= */
+/* FIREWORK */
+/* ========================= */
+
+class Firework{
+
+  constructor(){
+
+    this.x =
+    Math.random()*canvas.width;
+
+    this.y =
+    canvas.height + 20;
+
+    this.targetY =
+    Math.random()*(canvas.height*.45);
+
+    /* FULL RAINBOW COLORS */
+
+    this.color =
+    `hsl(${Math.random()*360},100%,60%)`;
+
+    this.speed = 8;
+
+  }
+
+  update(){
+
+    this.y -= this.speed;
+
+    if(this.y <= this.targetY){
+
+      explode(this.x,this.y);
+
+      return false;
+
+    }
+
+    return true;
+
+  }
+
+  draw(){
+
+    ctx.beginPath();
+
+    ctx.arc(
+      this.x,
+      this.y,
+      2.5,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle = this.color;
+
+    ctx.shadowBlur = 12;
+    ctx.shadowColor = this.color;
+
+    ctx.fill();
+
+  }
+
+}
+
+/* ========================= */
+/* EXPLOSION */
+/* ========================= */
+
+function explode(x,y){
+
+  for(let i=0;i<75;i++){
+
+    particles.push(
+
+      new Particle(
+        x,
+        y,
+        `hsl(${Math.random()*360},100%,60%)`
+      )
+
+    );
+
+  }
+
+}
+
+/* ========================= */
+/* TEXT EXPLODE */
+/* ========================= */
+
+function explodeText(){
+
+  textParticles.forEach((p)=>{
+
+    p.vx =
+    (Math.random()-.5)*12;
+
+    p.vy =
+    (Math.random()-.5)*12;
+
+  });
+
+}
+
+/* ========================= */
+/* AUTO FIREWORKS */
+/* ========================= */
+
+setInterval(()=>{
+
+  fireworks.push(
+    new Firework()
+  );
+
+},700);
+
+createTextParticles();
+
+/* ========================= */
+/* ANIMATION */
+/* ========================= */
+
+function animate(){
+
+  requestAnimationFrame(animate);
+
+  ctx.fillStyle =
+  "rgba(0,0,0,.15)";
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  timer++;
+
+  /* FIREWORKS */
+
+  fireworks =
+  fireworks.filter((f)=>{
+
+    f.draw();
+
+    return f.update();
+
+  });
+
+  /* PARTICLES */
+
+  particles =
+  particles.filter((p)=>{
+
+    p.update();
+    p.draw();
+
+    return p.alpha > 0;
+
+  });
+
+  /* TEXT */
+
+  textParticles.forEach((p)=>{
+
+    if(phase === "form"){
+
+      p.x +=
+      (p.targetX - p.x) * .06;
+
+      p.y +=
+      (p.targetY - p.y) * .06;
+
+      p.alpha += .025;
+
+    }
+
+    if(phase === "explode"){
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      p.vy += .05;
+
+      p.alpha -= .010;
+
+    }
+
+    ctx.save();
+
+    ctx.globalAlpha = p.alpha;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      p.x,
+      p.y,
+      1.6,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle = p.color;
+
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = p.color;
+
+    ctx.fill();
+
+    ctx.restore();
+
+  });
+
+  /* ========================= */
+  /* PHASES */
+  /* ========================= */
+
+  if(timer === 80){
+
+    phase = "form";
+
+    textParticles.forEach((p)=>{
+
+      p.alpha = 0;
+
+    });
+
+  }
+
+  if(timer === 300){
+
+    phase = "explode";
+
+    explodeText();
+
+  }
+
+  if(timer > 420){
+
+    timer = 0;
+
+    createTextParticles();
+
+  }
+
+}
+
+animate();
+
+</script>
+
+</body>
+</html>

@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,
-initial-scale=1.0,
-maximum-scale=1.0,
-user-scalable=no">
+
+<meta
+  name="viewport"
+  content="
+    width=device-width,
+    initial-scale=1.0,
+    maximum-scale=1.0,
+    user-scalable=no
+  "
+>
 
 <title>I miss you bebu ko 💖</title>
 
@@ -37,7 +43,53 @@ canvas{
 }
 
 /* ========================= */
-/* SAFE AREA */
+/* BACK BUTTON */
+/* ========================= */
+
+.back-btn{
+
+  position:fixed;
+
+  top:20px;
+  left:20px;
+
+  z-index:20;
+
+  padding:12px 18px;
+
+  border:none;
+  border-radius:14px;
+
+  background:
+  rgba(255,255,255,.15);
+
+  backdrop-filter:blur(10px);
+
+  color:#fff;
+
+  font-size:15px;
+  font-weight:bold;
+
+  text-decoration:none;
+
+  box-shadow:
+  0 0 15px rgba(255,255,255,.2);
+
+  transition:.25s;
+
+}
+
+.back-btn:hover{
+
+  background:
+  rgba(255,255,255,.25);
+
+  transform:scale(1.05);
+
+}
+
+/* ========================= */
+/* SAFE AREAS */
 /* ========================= */
 
 .safe-top{
@@ -46,11 +98,14 @@ canvas{
   left:0;
   width:100%;
   height:55px;
-  background:linear-gradient(
+
+  background:
+  linear-gradient(
     to bottom,
     rgba(0,0,0,.7),
     transparent
   );
+
   z-index:5;
   pointer-events:none;
 }
@@ -61,11 +116,14 @@ canvas{
   left:0;
   width:100%;
   height:40px;
-  background:linear-gradient(
+
+  background:
+  linear-gradient(
     to top,
     rgba(0,0,0,.6),
     transparent
   );
+
   z-index:5;
   pointer-events:none;
 }
@@ -74,6 +132,17 @@ canvas{
 </head>
 
 <body>
+
+<!-- ========================= -->
+<!-- BACK BUTTON -->
+<!-- ========================= -->
+
+<a
+  href="index.html"
+  class="back-btn"
+>
+  ← Back
+</a>
 
 <div class="safe-top"></div>
 
@@ -88,17 +157,20 @@ canvas{
 <audio id="bgMusic" autoplay loop>
   <source
     src="music/kalapastangan.mp3"
-    type="audio/mpeg">
+    type="audio/mpeg"
+  >
 </audio>
 
 <script>
+
+/* ========================= */
+/* MUSIC */
+/* ========================= */
 
 const music =
 document.getElementById("bgMusic");
 
 music.volume = 0.6;
-
-/* autoplay fix for phones */
 
 document.addEventListener(
   "click",
@@ -110,33 +182,59 @@ document.addEventListener(
   { once:true }
 );
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+/* ========================= */
+/* CANVAS */
+/* ========================= */
+
+const canvas =
+document.getElementById("canvas");
+
+const ctx =
+canvas.getContext("2d");
 
 function resizeCanvas(){
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width =
+  window.innerWidth;
+
+  canvas.height =
+  window.innerHeight;
 
 }
 
 resizeCanvas();
 
-window.addEventListener("resize",()=>{
+window.addEventListener(
+  "resize",
+  ()=>{
 
-  resizeCanvas();
-  createTextParticles();
+    resizeCanvas();
+    createTextParticles();
 
-});
+  }
+);
 
 /* ========================= */
-/* MESSAGE */
+/* TEXT */
 /* ========================= */
 
 const TEXT = [
-  "I miss you bebu 💖",
-  "Keep safe <3"
+
+  "I miss you bebu ko 💖",
+
+  "keep safe <3",
+
+  "this is for you,",
+
+  "hoping nagustuhan mo",
+
+  "kahit simple lang :)"
+
 ];
+
+/* ========================= */
+/* ARRAYS */
+/* ========================= */
 
 let fireworks = [];
 let particles = [];
@@ -146,7 +244,7 @@ let phase = "explode";
 let timer = 0;
 
 /* ========================= */
-/* TEXT PARTICLES */
+/* CREATE TEXT PARTICLES */
 /* ========================= */
 
 function createTextParticles(){
@@ -159,8 +257,11 @@ function createTextParticles(){
   const tempCtx =
   tempCanvas.getContext("2d");
 
-  tempCanvas.width = canvas.width;
-  tempCanvas.height = canvas.height;
+  tempCanvas.width =
+  canvas.width;
+
+  tempCanvas.height =
+  canvas.height;
 
   tempCtx.clearRect(
     0,
@@ -173,50 +274,83 @@ function createTextParticles(){
   tempCtx.textBaseline = "middle";
 
   /* ========================= */
-  /* RESPONSIVE FONT */
+  /* RESPONSIVE TEXT */
   /* ========================= */
 
-  const titleSize =
-  Math.min(canvas.width * 0.09, 56);
+  const maxFont =
+  Math.min(canvas.width * 0.08, 58);
 
-  const subSize =
-  Math.min(canvas.width * 0.085, 42);
+  const minFont = 18;
 
-  /* MAIN TEXT */
+  const lineGap =
+  Math.max(maxFont * 1.2, 42);
 
-  tempCtx.font =
-  `900 ${titleSize}px Arial`;
+  const totalHeight =
+  (TEXT.length - 1) * lineGap;
 
-  tempCtx.fillStyle = "#ffffff";
+  const startY =
+  canvas.height / 2 - totalHeight / 2;
 
-  tempCtx.fillText(
-    TEXT[0],
-    canvas.width / 2,
-    canvas.height / 2 - 35
-  );
+  /* ========================= */
+  /* DRAW TEXT */
+  /* ========================= */
 
-  /* SUB TEXT */
+  TEXT.forEach((line,index)=>{
 
-  tempCtx.font =
-  `900 ${subSize}px Arial`;
+    let fontSize = maxFont;
 
-  tempCtx.fillStyle = "#ffd6e0";
+    tempCtx.font =
+    `900 ${fontSize}px Arial`;
 
-  tempCtx.fillText(
-    TEXT[1],
-    canvas.width / 2,
-    canvas.height / 2 + 45
-  );
+    while(
 
-  const data = tempCtx.getImageData(
+      tempCtx.measureText(line).width >
+      canvas.width * 0.9 &&
+
+      fontSize > minFont
+
+    ){
+
+      fontSize -= 2;
+
+      tempCtx.font =
+      `900 ${fontSize}px Arial`;
+
+    }
+
+    /* LOVE COLOR */
+
+    tempCtx.fillStyle =
+    "#ff4d6d";
+
+    tempCtx.fillText(
+
+      line,
+
+      canvas.width / 2,
+
+      startY + index * lineGap
+
+    );
+
+  });
+
+  /* ========================= */
+  /* GET PIXELS */
+  /* ========================= */
+
+  const data =
+  tempCtx.getImageData(
+
     0,
     0,
     canvas.width,
     canvas.height
+
   );
 
   /* ========================= */
-  /* DENSER PARTICLES */
+  /* CREATE PARTICLES */
   /* ========================= */
 
   for(let y=0;y<canvas.height;y+=4){
@@ -228,9 +362,6 @@ function createTextParticles(){
 
       if(data.data[index + 3] > 128){
 
-        const isLowerText =
-        y > canvas.height / 2;
-
         textParticles.push({
 
           targetX:x,
@@ -238,28 +369,20 @@ function createTextParticles(){
 
           x:
           canvas.width/2 +
-          (Math.random()-.5)*160,
+          (Math.random()-.5)*220,
 
           y:
           canvas.height/2 +
-          (Math.random()-.5)*160,
+          (Math.random()-.5)*220,
 
           vx:0,
           vy:0,
 
           alpha:0,
 
-          color:isLowerText
-          ? (
-              Math.random() > 0.5
-              ? "#ffffff"
-              : "#ffd6e0"
-            )
-          : (
-              Math.random() > 0.5
-              ? "#ff4d6d"
-              : "#ff85a1"
-            )
+          /* LOVE COLOR */
+
+          color:"#ff4d6d"
 
         });
 
@@ -272,7 +395,7 @@ function createTextParticles(){
 }
 
 /* ========================= */
-/* PARTICLES */
+/* PARTICLE */
 /* ========================= */
 
 class Particle{
@@ -320,7 +443,8 @@ class Particle{
 
     ctx.save();
 
-    ctx.globalAlpha = this.alpha;
+    ctx.globalAlpha =
+    this.alpha;
 
     ctx.beginPath();
 
@@ -332,10 +456,12 @@ class Particle{
       Math.PI*2
     );
 
-    ctx.fillStyle = this.color;
+    ctx.fillStyle =
+    this.color;
 
     ctx.shadowBlur = 15;
-    ctx.shadowColor = this.color;
+    ctx.shadowColor =
+    this.color;
 
     ctx.fill();
 
@@ -354,15 +480,17 @@ class Firework{
   constructor(){
 
     this.x =
-    Math.random()*canvas.width;
+    Math.random() *
+    canvas.width;
 
     this.y =
     canvas.height + 20;
 
     this.targetY =
-    Math.random()*(canvas.height*.45);
+    Math.random() *
+    (canvas.height * .45);
 
-    /* FULL RAINBOW COLORS */
+    /* RAINBOW FIREWORKS */
 
     this.color =
     `hsl(${Math.random()*360},100%,60%)`;
@@ -377,7 +505,10 @@ class Firework{
 
     if(this.y <= this.targetY){
 
-      explode(this.x,this.y);
+      explode(
+        this.x,
+        this.y
+      );
 
       return false;
 
@@ -392,17 +523,23 @@ class Firework{
     ctx.beginPath();
 
     ctx.arc(
+
       this.x,
       this.y,
+
       2.5,
+
       0,
       Math.PI*2
+
     );
 
-    ctx.fillStyle = this.color;
+    ctx.fillStyle =
+    this.color;
 
     ctx.shadowBlur = 12;
-    ctx.shadowColor = this.color;
+    ctx.shadowColor =
+    this.color;
 
     ctx.fill();
 
@@ -421,9 +558,14 @@ function explode(x,y){
     particles.push(
 
       new Particle(
+
         x,
         y,
+
+        /* RAINBOW PARTICLES */
+
         `hsl(${Math.random()*360},100%,60%)`
+
       )
 
     );
@@ -433,7 +575,7 @@ function explode(x,y){
 }
 
 /* ========================= */
-/* TEXT EXPLODE */
+/* TEXT EXPLOSION */
 /* ========================= */
 
 function explodeText(){
@@ -441,10 +583,10 @@ function explodeText(){
   textParticles.forEach((p)=>{
 
     p.vx =
-    (Math.random()-.5)*12;
+    (Math.random()-.5) * 12;
 
     p.vy =
-    (Math.random()-.5)*12;
+    (Math.random()-.5) * 12;
 
   });
 
@@ -462,6 +604,10 @@ setInterval(()=>{
 
 },700);
 
+/* ========================= */
+/* INITIALIZE */
+/* ========================= */
+
 createTextParticles();
 
 /* ========================= */
@@ -470,21 +616,28 @@ createTextParticles();
 
 function animate(){
 
-  requestAnimationFrame(animate);
+  requestAnimationFrame(
+    animate
+  );
 
   ctx.fillStyle =
   "rgba(0,0,0,.15)";
 
   ctx.fillRect(
+
     0,
     0,
+
     canvas.width,
     canvas.height
+
   );
 
   timer++;
 
+  /* ========================= */
   /* FIREWORKS */
+  /* ========================= */
 
   fireworks =
   fireworks.filter((f)=>{
@@ -495,7 +648,9 @@ function animate(){
 
   });
 
+  /* ========================= */
   /* PARTICLES */
+  /* ========================= */
 
   particles =
   particles.filter((p)=>{
@@ -507,7 +662,9 @@ function animate(){
 
   });
 
-  /* TEXT */
+  /* ========================= */
+  /* TEXT PARTICLES */
+  /* ========================= */
 
   textParticles.forEach((p)=>{
 
@@ -536,22 +693,29 @@ function animate(){
 
     ctx.save();
 
-    ctx.globalAlpha = p.alpha;
+    ctx.globalAlpha =
+    p.alpha;
 
     ctx.beginPath();
 
     ctx.arc(
+
       p.x,
       p.y,
+
       1.6,
+
       0,
       Math.PI*2
+
     );
 
-    ctx.fillStyle = p.color;
+    ctx.fillStyle =
+    p.color;
 
     ctx.shadowBlur = 18;
-    ctx.shadowColor = p.color;
+    ctx.shadowColor =
+    p.color;
 
     ctx.fill();
 
